@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+
+</head>
+<body>
+
+	<a href="index.html">List</a>
+	<a href="create.html">Create</a>
+	<a href="delete.html">Delete</a>
+	<a href="update.html">Update</a>
+	<h1>My First Heading</h1>
+	<script type="text/javascript">
+		function send() {
+			$.ajax({
+				url : '/api/v1/person/' + $("#num")[0].value.toString(),
+				type : 'DELETE'
+			});
+			window.location.replace("index.html");
+		}
+	</script>
+	<p>My first paragraph.</p>
+	<input type="number" id="num" required>
+	<button type="button" onclick="send()">Delete</button>
+
+</body>
+</html>

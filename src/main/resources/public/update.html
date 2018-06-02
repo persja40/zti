@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+	<a href="index.html">List</a>
+	<a href="create.html">Create</a>
+	<a href="delete.html">Delete</a>
+	<a href="update.html">Update</a>
+	<h1>My First Heading</h1>
+	<p>My first paragraph.</p>
+	<form id="form_create">
+		<input type="text" id="fname" required> 
+		<input type="text" id="lname" required> 
+		<input type="text" id="city" required>
+		<input type="text" id="email" required> 
+		<input type="text" id="tel" required>
+		<input type="number" id="id" required> 
+		<input type="submit" id="submitButton" name="submitButton" value="Submit">
+	</form>
+	<script type="text/javascript">
+		$("#form_create").submit(function(event) {
+			var $form = $(this), url = "api/v1/person/"+$('#id').val().toString();
+			$.ajax({
+				type : 'PUT',
+				url : '/api/v1/person/'+$('#id').val().toString(),
+				data : JSON.stringify( {
+						'fname' : $('#fname').val(),
+						'lname' : $('#lname').val(),
+						'city' : $('#city').val(),
+						'email' : $('#email').val(),
+						'tel' : $('#tel').val(),
+						'id' : $('#id').val()}
+						),
+				contentType : "application/json",
+				dataType : "json"
+			});
+		});
+	</script>
+
+</body>
+</html>
