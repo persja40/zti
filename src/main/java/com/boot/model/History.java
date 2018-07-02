@@ -21,15 +21,15 @@ public class History {
 	@JoinColumn(name = "productId")
 	private Product product;
 	private Float price;
-	private Integer quantity;
+	private Integer amount;
 	private Date date;
 
-	public History(Integer historyId, Client client, Product product, Float price, Integer quantity) {
+	public History(Integer historyId, Client client, Product product, Float price, Integer amount) {
 		this.historyId = historyId;
 		this.client = client;
 		this.product = product;
-		this.price = price;
-		this.quantity = quantity;
+		this.setPrice(price) ;
+		this.setAmount(amount);
 		this.date = new Date();
 	}
 
@@ -68,20 +68,20 @@ public class History {
 		this.price = price;
 	}
 
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
 	public Date getDate() {
 		return date;
 	}
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
 
 }

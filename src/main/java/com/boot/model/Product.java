@@ -16,12 +16,12 @@ public class Product {
 	private Float price;
 	private Integer quantity;
 	@Column(unique = true)
-	private String barCode;
+	private Integer barCode;
 
 	public Product() {
 	}
 
-	public Product(Integer productId, String name, Float price, Integer quantity, String barCode) {
+	public Product(Integer productId, String name, Float price, Integer quantity, Integer barCode) {
 		this.productId = productId;
 		this.name = name;
 		this.price = price;
@@ -61,11 +61,11 @@ public class Product {
 		this.quantity = quantity;
 	}
 
-	public String getBarCode() {
+	public Integer getBarCode() {
 		return barCode;
 	}
 
-	public void setBarCode(String barCode) {
+	public void setBarCode(Integer barCode) {
 		this.barCode = barCode;
 	}
 }
