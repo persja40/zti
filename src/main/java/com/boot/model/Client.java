@@ -20,8 +20,7 @@ public class Client {
 	private Integer credit;
 	private Integer accountBalance;
 
-	public Client(Integer clientId, String name, String email, String phone, Integer credit, Integer accountBalance) {
-		this.clientId = clientId;
+	public Client(String name, String email, String phone, Integer credit, Integer accountBalance) {
 		this.name = name;
 		this.email = email;
 		this.phone = phone;

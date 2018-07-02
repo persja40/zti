@@ -1,1 +1,4 @@
+com.boot
 com.boot.controller
+com.boot.model
+com.boot.repository

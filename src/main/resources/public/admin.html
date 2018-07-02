@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Page</title>
+<style>
+body {
+	font-family: Arial;
+}
+
+/* Style the tab */
+.tab {
+	overflow: hidden;
+	border: 1px solid #ccc;
+	background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 16px;
+	transition: 0.3s;
+	font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+	background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+	background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+	display: none;
+	padding: 6px 12px;
+	border: 1px solid #ccc;
+	border-top: none;
+}
+
+/* Style the close button */
+.topright {
+	float: right;
+	cursor: pointer;
+	font-size: 28px;
+}
+
+.topright:hover {
+	color: red;
+}
+</style>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+	<div class="tab">
+		<button class="tablinks"
+			onclick="openCity(event, 'Client List');load_clients_list()"
+			id="defaultOpen">Client List</button>
+		<button class="tablinks" onclick="openCity(event, 'Add client')">Add
+			client</button>
+		<button class="tablinks" onclick="openCity(event, 'Set Client Account')">Set Client Account</button>
+		<button class="tablinks" onclick="openCity(event, 'Set Client Credit')">Set Client Credit</button>
+		<button class="tablinks" onclick="openCity(event, 'Add product')">Add
+			product</button>
+		<button class="tablinks"
+			onclick="openCity(event, 'Change product price')">Change
+			product price</button>
+		<button class="tablinks"
+			onclick="openCity(event, 'Change product quantity')">Change
+			product quantity</button>
+	</div>
+
+	<div id="Client List" class="tabcontent">
+		<span onclick="this.parentElement.style.display='none'"
+			class="topright">&times</span>
+		<h3>Client List</h3>
+		<div id="client_list"></div>
+	</div>
+
+	<div id="Add client" class="tabcontent">
+		<span onclick="this.parentElement.style.display='none'"
+			class="topright"></span>
+		<h3>Add client</h3>
+		<form id="form_create_client">
+			Name: <input type="text" id="name" required><br> Email:
+			<input type="email" id="email" required><br> Phone: <input
+				type="text" id="phone" required><br> Credit: <input
+				type="number" id="credit" value="0" min="0" required><br>
+			Account: <input type="number" id="accountBalance" value="0" required><br>
+			<input type="submit" id="create_client_Button" name="create_client"
+				value="Add Client">
+		</form>
+	</div>
+
+	<div id="Set Client Account" class="tabcontent">
+		<span onclick="this.parentElement.style.display='none'"
+			class="topright"></span>
+		<h3>Set client account balance</h3>
+		<form id="form_client_account">
+			Id: <input type="text" id="id_set_account" required><br>
+			Account Balance: <input type="number" id="accountBalance_set_account" required> <br>
+			<input type="submit" id="set_client_account"
+				name="set_client_account" value="Set Client Account">
+		</form>
+	</div>
+
+	<div id="Set Client Credit" class="tabcontent">
+		<span onclick="this.parentElement.style.display='none'"
+			class="topright"></span>
+		<h3>Set client credit</h3>
+		<form id="form_client_credit">
+			Id: <input type="text" id="id_set_credit" required><br>
+			Credit: <input type="number" id="credit_set" required> <br>
+			<input type="submit" id="set_client_credit"
+				name="set_client_credit" value="Set Client Credit">
+		</form>
+	</div>
+
+	<div id="Add product" class="tabcontent">
+		<span onclick="this.parentElement.style.display='none'"
+			class="topright">&times</span>
+		<h3>Add product</h3>
+		<p>Add product is the capital of France.</p>
+	</div>
+
+	<div id="Change product price" class="tabcontent">
+		<span onclick="this.parentElement.style.display='none'"
+			class="topright">&times</span>
+		<h3>Change product price</h3>
+		<p>Change product price is the capital of Japan.</p>
+	</div>
+
+	<div id="Change product quantity" class="tabcontent">
+		<span onclick="this.parentElement.style.display='none'"
+			class="topright">&times</span>
+		<h3>Change product quantity</h3>
+		<p>Change product quantity is the capital of Japan.</p>
+	</div>
+
+	<div id="Show history" class="tabcontent">
+		<span onclick="this.parentElement.style.display='none'"
+			class="topright">&times</span>
+		<h3>Show history</h3>
+		<p>Show history is the capital of Japan.</p>
+	</div>
+
+	<script>
+		function openCity(evt, cityName) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(
+						" active", "");
+			}
+			document.getElementById(cityName).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+
+		// Get the element with id="defaultOpen" and click on it
+		document.getElementById("defaultOpen").click();
+
+		//CLIENT LIST
+		$.makeTable = function(mydata) {
+			var table = $('<table border=1>');
+			var tblHeader = "<tr>";
+			for ( var k in mydata[0])
+				tblHeader += "<th>" + k + "</th>";
+			tblHeader += "</tr>";
+			$(tblHeader).appendTo(table);
+			$.each(mydata, function(index, value) {
+				var TableRow = "<tr>";
+				$.each(value, function(key, val) {
+					TableRow += "<td>" + val + "</td>";
+				});
+				TableRow += "</tr>";
+				$(table).append(TableRow);
+			});
+			return ($(table));
+		};
+		function load_clients_list() {
+			document.getElementById('client_list').innerHTML = "";
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var table = $.makeTable(JSON.parse(this.response));
+					$(table).appendTo("#client_list");
+				}
+			};
+			xhttp.open("GET", "api/client", true);
+			xhttp.send();
+		}
+
+		//ADD CLIENT
+		$("#form_create_client").submit(function(event) {
+			var $form = $(this), url = "api/client";
+			$.ajax({
+				type : 'POST',
+				url : '/api/client/',
+				data : JSON.stringify({
+					'name' : $('#name').val(),
+					'email' : $('#email').val(),
+					'phone' : $('#phone').val(),
+					'credit' : $('#credit').val(),
+					'accountBalance' : $('#accountBalance').val()
+				}),
+				contentType : "application/json",
+				dataType : "json"
+			});
+		});
+
+		//SET CLIENT ACCOUNT
+		$("#form_client_account").submit(function(event) {
+			var $form = $(this), url = "api/client/account/" + $('#id_set_account').val();
+			console.log($('#accountBalance_set_account').val());
+			$.ajax({
+				type : 'POST',
+				url : '/api/client/account/' + $('#id_set_account').val(),
+				data : 'accountBalance=' + $('#accountBalance_set_account').val(),
+				error: function(req, err){ 
+					console.log(req);
+					console.log(err); }
+			});
+		});
+		
+		//SET CLIENT CREDIT
+		$("#form_client_credit").submit(function(event) {
+			var $form = $(this), url = "api/client/credit/" + $('#id_set_credit').val();
+			console.log($('#credit_set').val());
+			$.ajax({
+				type : 'POST',
+				url : '/api/client/credit/' + $('#id_set_credit').val(),
+				data : 'credit=' + $('#credit_set').val(),
+				error: function(req, err){ 
+					console.log(req);
+					console.log(err); }
+			});
+		});
+	</script>
+</body>
+</html>

@@ -21,8 +21,7 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(Integer productId, String name, Float price, Integer quantity, Integer barCode) {
-		this.productId = productId;
+	public Product(String name, Float price, Integer quantity, Integer barCode) {
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;

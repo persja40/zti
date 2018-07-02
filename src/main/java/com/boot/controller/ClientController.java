@@ -1,6 +1,7 @@
 package com.boot.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boot.model.Client;
@@ -19,7 +21,7 @@ import com.boot.repository.ClientRepo;
 public class ClientController {
 	@Autowired
 	private ClientRepo cliRepo;
-	
+
 	@RequestMapping(value = "client", method = RequestMethod.GET)
 	public List<Client> list() {
 		return cliRepo.findAll();
@@ -33,5 +35,28 @@ public class ClientController {
 	@RequestMapping(value = "client/{id}", method = RequestMethod.GET)
 	public Optional<Client> get(@PathVariable Integer id) {
 		return cliRepo.findById(id);
+	}
+
+	@RequestMapping(value = "client/account/{id}", method = RequestMethod.POST)
+	public void setAccountBalance(@PathVariable Integer id, @RequestParam int accountBalance) {
+		try {
+			Client current = cliRepo.findById(id).get();
+			current.setAccountBalance(accountBalance);
+			cliRepo.saveAndFlush(current);
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping(value = "client/credit/{id}", method = RequestMethod.POST)
+	public void setCredit(@PathVariable Integer id, @RequestParam Integer credit) {
+		if (credit >= 0)
+			try {
+				Client current = cliRepo.findById(id).get();
+				current.setCredit(credit);
+				cliRepo.saveAndFlush(current);
+			} catch (NoSuchElementException e) {
+				e.printStackTrace();
+			}
 	}
 }
