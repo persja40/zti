@@ -63,7 +63,7 @@ body {
 		<button class="tablinks"
 			onclick="openCity(event, 'Product List');load_product_list()"
 			id="defaultOpen">Product List</button>
-		<button class="tablinks" onclick="openCity(event, 'My history')">My
+		<button class="tablinks" onclick="openCity(event, 'My history');load_history_client()">My
 			history</button>
 		<button class="tablinks" onclick="openCity(event, 'Buy product')">Buy
 			product</button>
@@ -71,21 +71,26 @@ body {
 
 	<div id="Product List" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">&times</span>
+			class="topright">X</span>
 		<h3>Product List</h3>
 		<div id="product_list"></div>
 	</div>
 	<div id="My history" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">&times</span>
+			class="topright">X</span>
 		<h3>My history</h3>
 		<div id="my_history"></div>
 	</div>
 	<div id="Buy product" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">&times</span>
+			class="topright">X</span>
 		<h3>Buy product</h3>
-
+		<form id="form_buy_product">
+			ClientId: <input type="number" id="buy_clientid" required><br> 
+			ProductId/BarCode:<input type="number" id="buy_productid" required><br>
+			Amount: <input type="number" id="buy_amount" min="1" required><br>
+			<input type="submit" value="Buy Product">
+		</form>
 	</div>
 
 
@@ -108,7 +113,7 @@ body {
 		// Get the element with id="defaultOpen" and click on it
 		document.getElementById("defaultOpen").click();
 
-		//CLIENT LIST
+		//PRODUCT LIST
 		$.makeTable = function(mydata) {
 			var table = $('<table border=1>');
 			var tblHeader = "<tr>";
@@ -138,6 +143,50 @@ body {
 			xhttp.open("GET", "api/product", true);
 			xhttp.send();
 		}
+		
+		//BUY PRODUCT
+		$("#form_buy_product").submit(function(event) {
+			console.log('clientId='+ $('#buy_clientid').val()+'&productId=' + $('#buy_productid').val() + '&amount=' + $('#buy_amount').val());
+			var $form = $(this);
+			$.ajax({
+				type : 'POST',
+				url : '/api/history',
+				data : 'clientId='+ $('#buy_clientid').val()+'&productId=' + $('#buy_productid').val() + '&amount=' + $('#buy_amount').val()
+			});
+		});
+		
+		//MY HISTORY
+		//PRODUCT LIST
+		$.makeTable = function(mydata) {
+			var table = $('<table border=1>');
+			var tblHeader = "<tr>";
+			for ( var k in mydata[0])
+				tblHeader += "<th>" + k + "</th>";
+			tblHeader += "</tr>";
+			$(tblHeader).appendTo(table);
+			$.each(mydata, function(index, value) {
+				var TableRow = "<tr>";
+				$.each(value, function(key, val) {
+					TableRow += "<td>" + val + "</td>";
+				});
+				TableRow += "</tr>";
+				$(table).append(TableRow);
+			});
+			return ($(table));
+		};
+		function load_product_list() {
+			document.getElementById('product_list').innerHTML = "";
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var table = $.makeTable(JSON.parse(this.response));
+					$(table).appendTo("#product_list");
+				}
+			};
+			xhttp.open("GET", "api/product", true);
+			xhttp.send();
+		}
+
 	</script>
 </body>
 </html>

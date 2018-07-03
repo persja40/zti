@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Admin Page</title>
 <style>
 body {
@@ -79,18 +80,20 @@ body {
 		<button class="tablinks"
 			onclick="openCity(event, 'Change product quantity')">Change
 			product quantity</button>
+		<button class="tablinks"
+			onclick="openCity(event, 'Show history');load_history_all()">Show history</button>
 	</div>
 
 	<div id="Client List" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">times</span>
+			class="topright">X</span>
 		<h3>Client List</h3>
 		<div id="client_list"></div>
 	</div>
 
 	<div id="Add client" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright"></span>
+			class="topright">X</span>
 		<h3>Add client</h3>
 		<form id="form_create_client">
 			Name: <input type="text" id="name" required><br> Email:
@@ -105,7 +108,7 @@ body {
 
 	<div id="Set Client Account" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright"></span>
+			class="topright">X</span>
 		<h3>Set client account balance</h3>
 		<form id="form_client_account">
 			Id: <input type="text" id="id_set_account" required><br>
@@ -118,7 +121,7 @@ body {
 
 	<div id="Set Client Credit" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright"></span>
+			class="topright">X</span>
 		<h3>Set client credit</h3>
 		<form id="form_client_credit">
 			Id: <input type="text" id="id_set_credit" required><br>
@@ -130,7 +133,7 @@ body {
 
 	<div id="Add product" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">times</span>
+			class="topright">X</span>
 		<h3>Add product</h3>
 		<form id="form_create_product">
 			Name: <input type="text" id="product_name" required><br>
@@ -144,7 +147,7 @@ body {
 
 	<div id="Change product price" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">times</span>
+			class="topright">X</span>
 		<h3>Change product price</h3>
 		<form id="form_product_price">
 			Id: <input type="text" id="id_product_price" required><br>
@@ -156,7 +159,7 @@ body {
 
 	<div id="Change product quantity" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">times</span>
+			class="topright">X</span>
 		<h3>Change product quantity</h3>
 		<form id="form_product_quantity">
 			Id: <input type="text" id="id_product_quantity" required><br>
@@ -168,9 +171,9 @@ body {
 
 	<div id="Show history" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">times</span>
+			class="topright">X</span>
 		<h3>Show history</h3>
-		<p>Show history is the capital of Japan.</p>
+		<div id="history_list"></div>
 	</div>
 
 	<script>
@@ -310,6 +313,22 @@ body {
 						data : 'quantity=' + $('#set_product_quantity').val()
 					});
 				});
+		
+		//HISTORY LIST
+		function load_history_all(){
+			console.log("HISTORY ALL");
+			//document.getElementById('history_list').innerHTML = "";
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					console.log(this.response);
+					var table = $.makeTable(JSON.parse(this.response));
+					$(table).appendTo("#history_list");
+				}
+			};
+			xhttp.open("GET", "api/history", true);
+			xhttp.send();
+		}
 	</script>
 </body>
 </html>

@@ -9,25 +9,29 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 public class History {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer historyId;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@Fetch(FetchMode.JOIN)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "clientId")
 	private Client client;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@Fetch(FetchMode.JOIN)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "barCode")
 	private Product product;
 	private Float price;
 	private Integer amount;
 	private Date date;
 
-	public History(Client client, Product product, Float price, Integer amount) {
+	public History(Client client, Product product, Integer amount) {
 		this.client = client;
 		this.product = product;
-		this.price = price;
 		this.amount = amount;
 		this.date = new Date();
 	}
@@ -49,6 +53,10 @@ public class History {
 
 	public Float getPrice() {
 		return price;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
 	}
 
 	public Date getDate() {
