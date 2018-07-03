@@ -28,7 +28,7 @@ public class Product {
 	public Integer getBarCode() {
 		return barCode;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -42,7 +42,8 @@ public class Product {
 	}
 
 	public void setPrice(Float price) {
-		this.price = price;
+		if (price >= 0)
+			this.price = price;
 	}
 
 	public Integer getQuantity() {
@@ -50,7 +51,8 @@ public class Product {
 	}
 
 	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
+		if (quantity >= 0)
+			this.quantity = quantity;
 	}
 
 	public void setBarCode(Integer barCode) {
