@@ -18,18 +18,17 @@ public class History {
 	@JoinColumn(name = "clientId")
 	private Client client;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "productId")
+	@JoinColumn(name = "barCode")
 	private Product product;
 	private Float price;
 	private Integer amount;
 	private Date date;
 
-	public History(Integer historyId, Client client, Product product, Float price, Integer amount) {
-		this.historyId = historyId;
+	public History(Client client, Product product, Float price, Integer amount) {
 		this.client = client;
 		this.product = product;
-		this.setPrice(price) ;
-		this.setAmount(amount);
+		this.price = price;
+		this.amount = amount;
 		this.date = new Date();
 	}
 
@@ -40,48 +39,24 @@ public class History {
 		return historyId;
 	}
 
-	public void setHistoryId(Integer historyId) {
-		this.historyId = historyId;
-	}
-
 	public Client getClient() {
 		return client;
-	}
-
-	public void setClient(Client client) {
-		this.client = client;
 	}
 
 	public Product getProduct() {
 		return product;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
 	public Float getPrice() {
 		return price;
-	}
-
-	public void setPrice(Float price) {
-		this.price = price;
 	}
 
 	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
 	public Integer getAmount() {
 		return amount;
-	}
-
-	public void setAmount(Integer amount) {
-		this.amount = amount;
 	}
 
 }

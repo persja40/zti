@@ -65,8 +65,12 @@ body {
 			id="defaultOpen">Client List</button>
 		<button class="tablinks" onclick="openCity(event, 'Add client')">Add
 			client</button>
-		<button class="tablinks" onclick="openCity(event, 'Set Client Account')">Set Client Account</button>
-		<button class="tablinks" onclick="openCity(event, 'Set Client Credit')">Set Client Credit</button>
+		<button class="tablinks"
+			onclick="openCity(event, 'Set Client Account')">Set Client
+			Account</button>
+		<button class="tablinks"
+			onclick="openCity(event, 'Set Client Credit')">Set Client
+			Credit</button>
 		<button class="tablinks" onclick="openCity(event, 'Add product')">Add
 			product</button>
 		<button class="tablinks"
@@ -79,7 +83,7 @@ body {
 
 	<div id="Client List" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">&times</span>
+			class="topright">times</span>
 		<h3>Client List</h3>
 		<div id="client_list"></div>
 	</div>
@@ -92,8 +96,8 @@ body {
 			Name: <input type="text" id="name" required><br> Email:
 			<input type="email" id="email" required><br> Phone: <input
 				type="text" id="phone" required><br> Credit: <input
-				type="number" id="credit" value="0" min="0" required><br>
-			Account: <input type="number" id="accountBalance" value="0" required><br>
+				type="number" id="credit" value="0" min="0" step="0.01" required><br>
+			Account: <input type="number" id="accountBalance" value="0" step="0.01" required><br>
 			<input type="submit" id="create_client_Button" name="create_client"
 				value="Add Client">
 		</form>
@@ -105,9 +109,10 @@ body {
 		<h3>Set client account balance</h3>
 		<form id="form_client_account">
 			Id: <input type="text" id="id_set_account" required><br>
-			Account Balance: <input type="number" id="accountBalance_set_account" required> <br>
-			<input type="submit" id="set_client_account"
-				name="set_client_account" value="Set Client Account">
+			Account Balance: <input type="number" id="accountBalance_set_account"
+				step="0.01" required> <br> <input type="submit"
+				id="set_client_account" name="set_client_account"
+				value="Set Client Account">
 		</form>
 	</div>
 
@@ -117,36 +122,53 @@ body {
 		<h3>Set client credit</h3>
 		<form id="form_client_credit">
 			Id: <input type="text" id="id_set_credit" required><br>
-			Credit: <input type="number" id="credit_set" required> <br>
-			<input type="submit" id="set_client_credit"
-				name="set_client_credit" value="Set Client Credit">
+			Credit: <input type="number" id="credit_set" step="0.01" required> <br>
+			<input type="submit" id="set_client_credit" name="set_client_credit"
+				value="Set Client Credit">
 		</form>
 	</div>
 
 	<div id="Add product" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">&times</span>
+			class="topright">times</span>
 		<h3>Add product</h3>
-		<p>Add product is the capital of France.</p>
+		<form id="form_create_product">
+			Name: <input type="text" id="product_name" required><br>
+			Price: <input type="number" id="product_price" min="0" step="0.01"
+				required><br> Quantity: <input type="number"
+				id="product_quantity" value="0" min="0" required><br> <input
+				type="submit" id="create_product_Button" name="create_product"
+				value="Add Product">
+		</form>
 	</div>
 
 	<div id="Change product price" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">&times</span>
+			class="topright">times</span>
 		<h3>Change product price</h3>
-		<p>Change product price is the capital of Japan.</p>
+		<form id="form_product_price">
+			Id: <input type="text" id="id_product_price" required><br>
+			Price: <input type="number" min="0" step="0.01"
+				id="set_product_price" required> <br> <input
+				type="submit" value="Set Product Price">
+		</form>
 	</div>
 
 	<div id="Change product quantity" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">&times</span>
+			class="topright">times</span>
 		<h3>Change product quantity</h3>
-		<p>Change product quantity is the capital of Japan.</p>
+		<form id="form_product_quantity">
+			Id: <input type="text" id="id_product_quantity" required><br>
+			Quantity: <input type="number" id="set_product_quantity" min="0"
+				required> <br> <input type="submit"
+				value="Set Product Quantity">
+		</form>
 	</div>
 
 	<div id="Show history" class="tabcontent">
 		<span onclick="this.parentElement.style.display='none'"
-			class="topright">&times</span>
+			class="topright">times</span>
 		<h3>Show history</h3>
 		<p>Show history is the capital of Japan.</p>
 	</div>
@@ -203,7 +225,7 @@ body {
 
 		//ADD CLIENT
 		$("#form_create_client").submit(function(event) {
-			var $form = $(this), url = "api/client";
+			var $form = $(this);
 			$.ajax({
 				type : 'POST',
 				url : '/api/client/',
@@ -220,32 +242,74 @@ body {
 		});
 
 		//SET CLIENT ACCOUNT
-		$("#form_client_account").submit(function(event) {
-			var $form = $(this), url = "api/client/account/" + $('#id_set_account').val();
-			console.log($('#accountBalance_set_account').val());
-			$.ajax({
-				type : 'POST',
-				url : '/api/client/account/' + $('#id_set_account').val(),
-				data : 'accountBalance=' + $('#accountBalance_set_account').val(),
-				error: function(req, err){ 
-					console.log(req);
-					console.log(err); }
-			});
-		});
-		
+		$("#form_client_account").submit(
+				function(event) {
+					var $form = $(this);
+					console.log($('#accountBalance_set_account').val());
+					$.ajax({
+						type : 'PUT',
+						url : '/api/client/account/'
+								+ $('#id_set_account').val(),
+						data : 'accountBalance='
+								+ $('#accountBalance_set_account').val(),
+						error : function(req, err) {
+							console.log(req);
+							console.log(err);
+						}
+					});
+				});
+
 		//SET CLIENT CREDIT
 		$("#form_client_credit").submit(function(event) {
-			var $form = $(this), url = "api/client/credit/" + $('#id_set_credit').val();
-			console.log($('#credit_set').val());
+			var $form = $(this);
 			$.ajax({
-				type : 'POST',
+				type : 'PUT',
 				url : '/api/client/credit/' + $('#id_set_credit').val(),
 				data : 'credit=' + $('#credit_set').val(),
-				error: function(req, err){ 
+				error : function(req, err) {
 					console.log(req);
-					console.log(err); }
+					console.log(err);
+				}
 			});
 		});
+
+		//ADD PRODUCT
+		$("#form_create_product").submit(function(event) {
+			var $form = $(this);
+			$.ajax({
+				type : 'POST',
+				url : '/api/product/',
+				data : JSON.stringify({
+					'name' : $('#product_name').val(),
+					'price' : $('#product_price').val(),
+					'quantity' : $('#product_quantity').val()
+				}),
+				contentType : "application/json",
+				dataType : "json"
+			});
+		});
+
+		//CHANGE PRODUCT PRICE
+		$("#form_product_price").submit(function(event) {
+			var $form = $(this);
+			$.ajax({
+				type : 'PUT',
+				url : "api/product/price/" + $('#id_product_price').val(),
+				data : 'price=' + $('#set_product_price').val()
+			});
+		});
+
+		//CHANGE PRODUCT QUANTITY
+		$("#form_product_quantity").submit(
+				function(event) {
+					var $form = $(this);
+					$.ajax({
+						type : 'PUT',
+						url : "api/product/quantity/"
+								+ $('#id_product_quantity').val(),
+						data : 'quantity=' + $('#set_product_quantity').val()
+					});
+				});
 	</script>
 </body>
 </html>

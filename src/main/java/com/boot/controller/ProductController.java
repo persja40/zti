@@ -12,7 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
-import com.boot.model.Person;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.boot.model.Product;
 import com.boot.repository.ProductRepo;
 
@@ -29,37 +30,37 @@ public class ProductController {
 
 	@RequestMapping(value = "product", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE })
 	public void create(@RequestBody Product p) {
-		System.out.println(p);
 		proRepo.saveAndFlush(p);
 	}
 
 	@RequestMapping(value = "product/{code}", method = RequestMethod.GET)
-	public Optional<Person> get(@PathVariable Integer code) {
-		return proRepo.findByBarCode(code);
+	public Optional<Product> get(@PathVariable Integer code) {
+		return proRepo.findById(code);
 	}
 
-	@RequestMapping(value = "person/price/{id}", method = RequestMethod.PUT)
-	public void setPrice(@PathVariable Integer id, @RequestBody Float price) {
-		try {
-			Product current = proRepo.findById(id).get();
-			if (price >= 0)
+	@RequestMapping(value = "product/price/{id}", method = RequestMethod.PUT)
+	public void setPrice(@PathVariable Integer id, @RequestParam Float price) {
+		if (price >= 0) {
+			try {
+				Product current = proRepo.findById(id).get();
 				current.setPrice(price);
-			proRepo.saveAndFlush(current);
-		} catch (NoSuchElementException e) {
-			e.printStackTrace();
+				proRepo.saveAndFlush(current);
+			} catch (NoSuchElementException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
-	@RequestMapping(value = "person/quantity/{id}", method = RequestMethod.PUT)
-	public void setQuantity(@PathVariable Integer id, @RequestBody Integer quantity) {
-		try {
-			Product current = proRepo.findById(id).get();
-			if (quantity >= 0)
+	@RequestMapping(value = "product/quantity/{id}", method = RequestMethod.PUT)
+	public void setQuantity(@PathVariable Integer id, @RequestParam Integer quantity) {
+		if (quantity >= 0)
+			try {
+				Product current = proRepo.findById(id).get();
 				current.setQuantity(quantity);
-			proRepo.saveAndFlush(current);
-		} catch (NoSuchElementException e) {
-			e.printStackTrace();
-		}
+				proRepo.saveAndFlush(current);
+			} catch (NoSuchElementException e) {
+				e.printStackTrace();
+			}
 	}
 
 }

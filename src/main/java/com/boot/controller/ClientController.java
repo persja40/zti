@@ -37,8 +37,8 @@ public class ClientController {
 		return cliRepo.findById(id);
 	}
 
-	@RequestMapping(value = "client/account/{id}", method = RequestMethod.POST)
-	public void setAccountBalance(@PathVariable Integer id, @RequestParam int accountBalance) {
+	@RequestMapping(value = "client/account/{id}", method = RequestMethod.PUT)
+	public void setAccountBalance(@PathVariable Integer id, @RequestParam Float accountBalance) {
 		try {
 			Client current = cliRepo.findById(id).get();
 			current.setAccountBalance(accountBalance);
@@ -48,8 +48,8 @@ public class ClientController {
 		}
 	}
 
-	@RequestMapping(value = "client/credit/{id}", method = RequestMethod.POST)
-	public void setCredit(@PathVariable Integer id, @RequestParam Integer credit) {
+	@RequestMapping(value = "client/credit/{id}", method = RequestMethod.PUT)
+	public void setCredit(@PathVariable Integer id, @RequestParam Float credit) {
 		if (credit >= 0)
 			try {
 				Client current = cliRepo.findById(id).get();

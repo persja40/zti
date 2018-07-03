@@ -17,10 +17,10 @@ public class Client {
 	private String email;
 	@Column(unique = true)
 	private String phone;
-	private Integer credit;
-	private Integer accountBalance;
+	private Float credit;
+	private Float accountBalance;
 
-	public Client(String name, String email, String phone, Integer credit, Integer accountBalance) {
+	public Client(String name, String email, String phone, Float credit, Float accountBalance) {
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
@@ -63,19 +63,19 @@ public class Client {
 		this.phone = phone;
 	}
 
-	public Integer getCredit() {
+	public Float getCredit() {
 		return credit;
 	}
 
-	public void setCredit(Integer credit) {
+	public void setCredit(Float credit) {
 		this.credit = credit;
 	}
 
-	public Integer getAccountBalance() {
+	public Float getAccountBalance() {
 		return accountBalance;
 	}
 
-	public void setAccountBalance(Integer accountBalance) {
+	public void setAccountBalance(Float accountBalance) {
 		this.accountBalance = accountBalance;
 	}
 

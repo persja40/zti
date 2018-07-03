@@ -10,32 +10,25 @@ import javax.persistence.Id;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer productId;
+	private Integer barCode;
 	@Column(unique = true)
 	private String name;
 	private Float price;
 	private Integer quantity;
-	@Column(unique = true)
-	private Integer barCode;
 
 	public Product() {
 	}
 
-	public Product(String name, Float price, Integer quantity, Integer barCode) {
+	public Product(String name, Float price, Integer quantity) {
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
-		this.barCode = barCode;
 	}
 
-	public Integer getProductId() {
-		return productId;
+	public Integer getBarCode() {
+		return barCode;
 	}
-
-	public void setProductId(Integer productId) {
-		this.productId = productId;
-	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -58,10 +51,6 @@ public class Product {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
-	}
-
-	public Integer getBarCode() {
-		return barCode;
 	}
 
 	public void setBarCode(Integer barCode) {
