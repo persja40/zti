@@ -15,7 +15,7 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 public class History {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer historyId;
 	@Fetch(FetchMode.JOIN)
 	@ManyToOne(fetch = FetchType.EAGER)
