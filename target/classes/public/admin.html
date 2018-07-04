@@ -81,7 +81,8 @@ body {
 			onclick="openCity(event, 'Change product quantity')">Change
 			product quantity</button>
 		<button class="tablinks"
-			onclick="openCity(event, 'Show history');load_history_all()">Show history</button>
+			onclick="openCity(event, 'Show history');load_history_all()">Show
+			history</button>
 	</div>
 
 	<div id="Client List" class="tabcontent">
@@ -100,9 +101,9 @@ body {
 			<input type="email" id="email" required><br> Phone: <input
 				type="text" id="phone" required><br> Credit: <input
 				type="number" id="credit" value="0" min="0" step="0.01" required><br>
-			Account: <input type="number" id="accountBalance" value="0" step="0.01" required><br>
-			<input type="submit" id="create_client_Button" name="create_client"
-				value="Add Client">
+			Account: <input type="number" id="accountBalance" value="0"
+				step="0.01" required><br> <input type="submit"
+				id="create_client_Button" name="create_client" value="Add Client">
 		</form>
 	</div>
 
@@ -125,9 +126,9 @@ body {
 		<h3>Set client credit</h3>
 		<form id="form_client_credit">
 			Id: <input type="text" id="id_set_credit" required><br>
-			Credit: <input type="number" id="credit_set" step="0.01" required> <br>
-			<input type="submit" id="set_client_credit" name="set_client_credit"
-				value="Set Client Credit">
+			Credit: <input type="number" id="credit_set" step="0.01" required>
+			<br> <input type="submit" id="set_client_credit"
+				name="set_client_credit" value="Set Client Credit">
 		</form>
 	</div>
 
@@ -315,13 +316,32 @@ body {
 				});
 		
 		//HISTORY LIST
+		function levelJSON(js){
+			first= true;
+			result = "[";
+			json = JSON.parse(js);
+			json.forEach((el)=>{
+				if (first)
+					first= false;
+				else
+					result+=",";
+				result+= "{"+"\"historyId\":\""+el.historyId+"\","+
+					"\"clientName\":\""+el.client.name+"\","+
+					"\"productName\":\""+el.product.name+"\","+
+					"\"price\":\""+el.price+"\","+
+					"\"amount\":\""+el.amount+"\","+
+					"\"date\":\""+el.date+"\"}"
+			})
+			result+="]";
+			return result;
+		}
+		
 		function load_history_all(){
 			document.getElementById('history_list').innerHTML = "";
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					console.log(this.response);
-					var table = $.makeTable(JSON.parse(this.response));
+					var table = $.makeTable(JSON.parse(levelJSON(this.response)));
 					$(table).appendTo("#history_list");
 				}
 			};

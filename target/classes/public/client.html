@@ -64,7 +64,7 @@ body {
 		<button class="tablinks"
 			onclick="openCity(event, 'Product List');load_product_list()"
 			id="defaultOpen">Product List</button>
-		<button class="tablinks" onclick="openCity(event, 'My history');load_history_client()">My
+		<button class="tablinks" onclick="openCity(event, 'My history')">My
 			history</button>
 		<button class="tablinks" onclick="openCity(event, 'Buy product')">Buy
 			product</button>
@@ -80,6 +80,8 @@ body {
 		<span onclick="this.parentElement.style.display='none'"
 			class="topright">X</span>
 		<h3>My history</h3>
+		clientId: <input type="text" id="clientid_history"><br>
+		<input type="button" onclick="load_history_cient()" value="Show my history"><br>
 		<div id="my_history"></div>
 	</div>
 	<div id="Buy product" class="tabcontent">
@@ -157,34 +159,35 @@ body {
 		});
 		
 		//MY HISTORY
-		//PRODUCT LIST
-		$.makeTable = function(mydata) {
-			var table = $('<table border=1>');
-			var tblHeader = "<tr>";
-			for ( var k in mydata[0])
-				tblHeader += "<th>" + k + "</th>";
-			tblHeader += "</tr>";
-			$(tblHeader).appendTo(table);
-			$.each(mydata, function(index, value) {
-				var TableRow = "<tr>";
-				$.each(value, function(key, val) {
-					TableRow += "<td>" + val + "</td>";
-				});
-				TableRow += "</tr>";
-				$(table).append(TableRow);
-			});
-			return ($(table));
-		};
-		function load_product_list() {
-			document.getElementById('product_list').innerHTML = "";
+		function levelJSON(js){
+			first= true;
+			result = "[";
+			json = JSON.parse(js);
+			json.forEach((el)=>{
+				if (first)
+					first= false;
+				else
+					result+=",";
+				result+= "{"+"\"historyId\":\""+el.historyId+"\","+
+					"\"productName\":\""+el.product.name+"\","+
+					"\"price\":\""+el.price+"\","+
+					"\"amount\":\""+el.amount+"\","+
+					"\"date\":\""+el.date+"\"}"
+			})
+			result+="]";
+			return result;
+		}
+		
+		function load_history_cient() {
+			document.getElementById('my_history').innerHTML = "";
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-					var table = $.makeTable(JSON.parse(this.response));
-					$(table).appendTo("#product_list");
+					var table = $.makeTable(JSON.parse(levelJSON(this.response)));
+					$(table).appendTo("#my_history");
 				}
 			};
-			xhttp.open("GET", "api/product", true);
+			xhttp.open("GET", "api/history/"+$("#clientid_history").val(), true);
 			xhttp.send();
 		}
 

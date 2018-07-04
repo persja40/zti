@@ -1,5 +1,6 @@
 package com.boot.controller;
 
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +54,12 @@ public class HistoryController {
 
 	@RequestMapping(value = "history/{clientId}", method = RequestMethod.GET)
 	public List<History> list_client(@PathVariable Integer clientId) {
-		throw new UnsupportedOperationException("!!! Implement IT !!!");
+		List<History> l = hisRepo.findAll();
+		for (Iterator<History> iter= l.listIterator(); iter.hasNext();) {
+			History h = iter.next();
+			if(!h.getClient().getClientId().equals(clientId))
+				iter.remove();
+		}
+		return l;
 	}
 }
