@@ -1,6 +1,10 @@
-C:\Users\Administrator\workspace\zti-seminar\src\main\java\com\boot\repository\PersonRepo.java
-C:\Users\Administrator\workspace\zti-seminar\src\main\java\com\boot\controller\HomeController.java
-C:\Users\Administrator\workspace\zti-seminar\src\main\java\com\boot\App.java
-C:\Users\Administrator\workspace\zti-seminar\src\main\java\com\boot\service\DBAzure.java
-C:\Users\Administrator\workspace\zti-seminar\src\main\java\com\boot\model\Person.java
-C:\Users\Administrator\workspace\zti-seminar\src\main\java\com\boot\controller\PersonController.java
+C:\Users\Ernest\eclipse-workspace\zti\src\main\java\com\boot\controller\ProductController.java
+C:\Users\Ernest\eclipse-workspace\zti\src\main\java\com\boot\controller\ClientController.java
+C:\Users\Ernest\eclipse-workspace\zti\src\main\java\com\boot\controller\HistoryController.java
+C:\Users\Ernest\eclipse-workspace\zti\src\main\java\com\boot\model\Product.java
+C:\Users\Ernest\eclipse-workspace\zti\src\main\java\com\boot\repository\ProductRepo.java
+C:\Users\Ernest\eclipse-workspace\zti\src\main\java\com\boot\model\Client.java
+C:\Users\Ernest\eclipse-workspace\zti\src\main\java\com\boot\App.java
+C:\Users\Ernest\eclipse-workspace\zti\src\main\java\com\boot\model\History.java
+C:\Users\Ernest\eclipse-workspace\zti\src\main\java\com\boot\repository\ClientRepo.java
+C:\Users\Ernest\eclipse-workspace\zti\src\main\java\com\boot\repository\HistoryRepo.java
